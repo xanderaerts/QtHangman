@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,8 +16,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QString m_file_path;
+
 private slots:
     void on_pushButton_Start_clicked();
+
+    void on_pushButton_chooseFile_clicked();
 
 private:
     Ui::MainWindow *ui;
