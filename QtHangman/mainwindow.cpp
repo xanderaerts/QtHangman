@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->groupBox_gameScreen->setVisible(false);
     ui->pushButton_Start->setVisible(false);
+    ui->label_fileName->setHidden(true);
 }
 
 MainWindow::~MainWindow()
@@ -34,15 +35,15 @@ void MainWindow::on_pushButton_chooseFile_clicked()
 {
     this->m_file_path = QFileDialog::getOpenFileName();
     QString msg = "Choosen file: " + m_file_path;
+
     this->ui->label_fileName->setText(msg);
+    this->ui->label_fileName->setHidden(false);
 
     QFileInfo fi(m_file_path);
-
     QString ext = fi.completeSuffix();
 
     if(ext == "txt"){
         this->ui->pushButton_Start->setVisible(true);
-
         this->ui->label_errorMsg->setVisible(false);
     }
     else{
