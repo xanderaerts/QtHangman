@@ -20,13 +20,26 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_Start->setVisible(false);
     ui->label_fileName->setHidden(true);
 
+    this->ui->label_errorWrongFile->setHidden(true);
+    this->ui->label_errorGuessTwice->setHidden(true);
+
+
     this->m_lay = new QHBoxLayout(this->ui->widget_labels);
     this->ui->widget_labels->setLayout(m_lay);
+
+    this->ui->lineEdit_guess->setFixedWidth(30);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::writeError(QString msg,QLabel *location){
+    location->setText(msg);
+    location->setStyleSheet("border: 1px solid red;");
+    location->setHidden(false);
+
 }
 
 void MainWindow::on_pushButton_Start_clicked()
@@ -53,11 +66,10 @@ void MainWindow::on_pushButton_chooseFile_clicked()
 
     if(ext == "txt"){
         this->ui->pushButton_Start->setVisible(true);
-        this->ui->label_errorMsg->setVisible(false);
+        this->ui->label_errorWrongFile->setHidden(true);
     }
     else{
-        this->ui->label_errorMsg->setText("Only use txt files.");
-        this->ui->label_errorMsg->setStyleSheet("border: 1px solid red;");
+        this->writeError("Only use txt files",this->ui->label_errorWrongFile);
     }
 }
 
@@ -83,12 +95,48 @@ void MainWindow::chooseWord(){
 }
 
 void MainWindow::drawLabels(){
-
-
     for(int i = 0; i<this->m_choosenWord.length();i++){
         QLabel *l = new QLabel("__");
         this->labelsList.append(l);
         this->m_lay->addWidget(l);
+    }
+}
+
+void MainWindow::on_pushButton_guess_clicked(){
+    QList<QChar> guessesList;
+    QString guessString = this->ui->lineEdit_guess->text();
+    QChar guessC = guessString[0];
+
+    if(guessesList.length() == 0){
+        guessesList.append(guessC);
+    }
+
+    switch(checkGuess(guessC,guessesList)){
+        case 0:
+            writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
+            break;
+        case 1:
+            break;
 
     }
 }
+
+int MainWindow::checkGuess(QChar guessC, QList<QChar>guessesList){
+    if(guessesList.length()> 1){
+        for(QChar c : guessesList){
+            QD << "lol";
+            if(c == guessC){
+                return 0;}
+        }
+    }
+
+    for(int i = 0; i < this->m_choosenWord.length();i++){
+        if(c == this->m_choosenWord[i]){
+                QD << c;
+        }
+    }
+
+}
+
+
+

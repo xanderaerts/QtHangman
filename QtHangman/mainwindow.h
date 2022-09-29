@@ -20,10 +20,12 @@ public:
     void readWords();
     void chooseWord();
     void drawLabels();
+    int checkGuess(QChar,QList<QChar>);
 
     QString m_file_path;
     QList<QString> m_words;
     QString m_choosenWord;
+    void writeError(QString msg,QLabel *location);
 
     QHBoxLayout *m_lay;
     QList<QLabel*> labelsList;
@@ -33,6 +35,8 @@ private slots:
     void on_pushButton_Start_clicked();
 
     void on_pushButton_chooseFile_clicked();
+
+    void on_pushButton_guess_clicked();
 
 private:
     Ui::MainWindow *ui;
