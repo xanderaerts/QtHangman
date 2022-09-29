@@ -55,7 +55,7 @@
            <item>
             <widget class="QLabel" name="label_fileName">
              <property name="text">
-              <string>path</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -98,6 +98,25 @@
       <property name="title">
        <string/>
       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QWidget" name="widget_labels" native="true"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_guess"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>take a guess</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
