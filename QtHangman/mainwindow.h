@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <QFileDialog>
 #include <QHBoxLayout>
+#include <painthangman.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,18 +21,22 @@ public:
     void readWords();
     void chooseWord();
     void drawLabels();
-    int checkGuess(QChar);
+    bool checkGuess(QChar);
     void writeError(QString msg,QLabel *location);
+    void endGame(bool);
+    void resetGame();
 
     QString m_file_path;
     QList<QString> m_words;
     QString m_choosenWord;
     QList<QChar> guessesList;
+    QList<QLabel*> labelsList;
+    int correctGuesses=0;
 
 
 
     QHBoxLayout *m_lay;
-    QList<QLabel*> labelsList;
+
 
 
 private slots:
@@ -40,6 +45,10 @@ private slots:
     void on_pushButton_chooseFile_clicked();
 
     void on_pushButton_guess_clicked();
+
+    void on_pushButton_restart_clicked();
+
+    void on_pushButton_exit_clicked();
 
 private:
     Ui::MainWindow *ui;

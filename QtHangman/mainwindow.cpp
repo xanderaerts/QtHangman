@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->m_lay = new QHBoxLayout(this->ui->widget_labels);
     this->ui->widget_labels->setLayout(m_lay);
 
-    this->ui->lineEdit_guess->setFixedWidth(30);
+    this->ui->lineEdit_guess->setFixedWidth(30);    
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +41,7 @@ void MainWindow::writeError(QString msg,QLabel *location){
     location->setHidden(false);
 
 }
+
 
 void MainWindow::on_pushButton_Start_clicked()
 {
@@ -68,10 +69,10 @@ void MainWindow::on_pushButton_chooseFile_clicked()
         this->ui->label_errorWrongFile->setHidden(true);
     }
     else{
-        this->writeError("Only use txt files",this->ui->label_errorWrongFile);
+        this->writeError("Only use .txt files",this->ui->label_errorWrongFile);
+        this->ui->pushButton_Start->setVisible(false);
     }
 }
-
 
 void MainWindow::readWords(){
    QFile f(this->m_file_path);
@@ -102,32 +103,32 @@ void MainWindow::drawLabels(){
 }
 
 void MainWindow::on_pushButton_guess_clicked(){
+
+    this->ui->label_errorGuessTwice->setHidden(true);
+
     QString guessString = this->ui->lineEdit_guess->text();
     QChar guessC = guessString[0];
 
     this->ui->lineEdit_guess->setText("");
 
+   bool guessChecked = checkGuess(guessC);
 
-   switch(checkGuess(guessC)){
-        case 0:
-            writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
-            break;
-        case 1:
-            break;
-
+   if(this->correctGuesses == this->m_choosenWord.length()){
+       this->endGame(true);
+   }
+    if(!guessChecked){
+        QD << "twas fout";
     }
 }
 
-int MainWindow::checkGuess(QChar guessC){
-
-    static int correctGuesses = 0;
-    int startCounter = correctGuesses;
-
+bool MainWindow::checkGuess(QChar guessC){
+    bool correct = false;
 
     for(QChar c : this->guessesList){
         QD << "lol";
         if(c == guessC){
-            return 0;
+            writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
+            return correct;
         }
     }
     this->guessesList.append(guessC);
@@ -135,22 +136,49 @@ int MainWindow::checkGuess(QChar guessC){
     for(int i = 0; i < this->m_choosenWord.length();i++){
         if(guessC == this->m_choosenWord[i]){
             this->labelsList[i]->setText(guessC);
-            correctGuesses++;
+            this->correctGuesses++;
+            QD << this->correctGuesses;
+            correct = true;
         }
     }
-
-    if(correctGuesses == this->m_choosenWord.length()){
-        QD << "you won";
-    }
-
-
-    if(startCounter == correctGuesses){
-        QD << "twas fout";
-        //hang man +1
-    }
-
-    return 2;
+    return correct;
 }
 
+void MainWindow::endGame(bool status){
 
+    this->ui->stackedWidget->setCurrentIndex(2);
+    if(status){
+        this->ui->label_endGame->setText("You won");
+    }
+    else{
+        this->ui->label_endGame->setText("You lost");
+    }
+}
+
+void MainWindow::on_pushButton_restart_clicked()
+{
+    this->resetGame();
+    this->on_pushButton_Start_clicked();
+}
+
+void MainWindow::resetGame(){
+
+    for(int i = 0;i<this->labelsList.length();i++){
+
+    this->m_lay->removeWidget(this->labelsList[i]);
+    delete this->labelsList[i];
+
+    }
+
+    this->labelsList.clear();
+    this->guessesList.clear();
+    this->correctGuesses = 0;
+    this->m_choosenWord = "";
+
+}
+
+void MainWindow::on_pushButton_exit_clicked()
+{
+    QApplication::exit();
+}
 
