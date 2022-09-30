@@ -20,12 +20,15 @@ public:
     void readWords();
     void chooseWord();
     void drawLabels();
-    int checkGuess(QChar,QList<QChar>);
+    int checkGuess(QChar);
+    void writeError(QString msg,QLabel *location);
 
     QString m_file_path;
     QList<QString> m_words;
     QString m_choosenWord;
-    void writeError(QString msg,QLabel *location);
+    QList<QChar> guessesList;
+
+
 
     QHBoxLayout *m_lay;
     QList<QLabel*> labelsList;

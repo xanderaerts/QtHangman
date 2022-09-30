@@ -16,10 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     QFont f("Arial",40);
     ui->label_title->setFont(f);
 
-    ui->groupBox_gameScreen->setVisible(false);
-    ui->pushButton_Start->setVisible(false);
-    ui->label_fileName->setHidden(true);
+    this->ui->stackedWidget->setCurrentIndex(0);
+    this->ui->pushButton_Start->setVisible(false);
 
+    this->ui->label_fileName->setHidden(true);
     this->ui->label_errorWrongFile->setHidden(true);
     this->ui->label_errorGuessTwice->setHidden(true);
 
@@ -44,8 +44,7 @@ void MainWindow::writeError(QString msg,QLabel *location){
 
 void MainWindow::on_pushButton_Start_clicked()
 {
-    this->ui->groupBox_gameScreen->setVisible(true);
-    this->ui->groupBox_startScreen->setVisible(false);
+    this->ui->stackedWidget->setCurrentIndex(1);
 
     this->readWords();
     this->chooseWord();
@@ -103,15 +102,13 @@ void MainWindow::drawLabels(){
 }
 
 void MainWindow::on_pushButton_guess_clicked(){
-    QList<QChar> guessesList;
     QString guessString = this->ui->lineEdit_guess->text();
     QChar guessC = guessString[0];
 
-    if(guessesList.length() == 0){
-        guessesList.append(guessC);
-    }
+    this->ui->lineEdit_guess->setText("");
 
-    switch(checkGuess(guessC,guessesList)){
+
+   switch(checkGuess(guessC)){
         case 0:
             writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
             break;
@@ -121,21 +118,38 @@ void MainWindow::on_pushButton_guess_clicked(){
     }
 }
 
-int MainWindow::checkGuess(QChar guessC, QList<QChar>guessesList){
-    if(guessesList.length()> 1){
-        for(QChar c : guessesList){
-            QD << "lol";
-            if(c == guessC){
-                return 0;}
+int MainWindow::checkGuess(QChar guessC){
+
+    static int correctGuesses = 0;
+    int startCounter = correctGuesses;
+
+
+    for(QChar c : this->guessesList){
+        QD << "lol";
+        if(c == guessC){
+            return 0;
         }
     }
+    this->guessesList.append(guessC);
 
     for(int i = 0; i < this->m_choosenWord.length();i++){
-        if(c == this->m_choosenWord[i]){
-                QD << c;
+        if(guessC == this->m_choosenWord[i]){
+            this->labelsList[i]->setText(guessC);
+            correctGuesses++;
         }
     }
 
+    if(correctGuesses == this->m_choosenWord.length()){
+        QD << "you won";
+    }
+
+
+    if(startCounter == correctGuesses){
+        QD << "twas fout";
+        //hang man +1
+    }
+
+    return 2;
 }
 
 
