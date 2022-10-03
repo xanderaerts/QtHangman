@@ -21,7 +21,7 @@ public:
     void readWords();
     void chooseWord();
     void drawLabels();
-    bool checkGuess(QChar);
+    int checkGuess(QChar);
     void writeError(QString msg,QLabel *location);
     void endGame(bool);
     void resetGame();
@@ -32,10 +32,12 @@ public:
     QList<QChar> guessesList;
     QList<QLabel*> labelsList;
     int correctGuesses=0;
+    PaintHangman *ph;
 
 
 
     QHBoxLayout *m_lay;
+    QHBoxLayout *m_lay2;
 
 
 

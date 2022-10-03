@@ -16,6 +16,15 @@ MainWindow::MainWindow(QWidget *parent)
     QFont f("Arial",40);
     ui->label_title->setFont(f);
 
+    this->ph = new PaintHangman();
+
+    this->m_lay2 = new QHBoxLayout(this->ui->widget_hangman);
+
+    this->ui->widget_hangman->setLayout(this->m_lay2);
+    this->m_lay2->addWidget(ph);
+
+    this->ui->widget_hangman->setFixedWidth(600);
+
     this->ui->stackedWidget->setCurrentIndex(0);
     this->ui->pushButton_Start->setVisible(false);
 
@@ -104,6 +113,8 @@ void MainWindow::drawLabels(){
 
 void MainWindow::on_pushButton_guess_clicked(){
 
+    bool doubleGuess;
+
     this->ui->label_errorGuessTwice->setHidden(true);
 
     QString guessString = this->ui->lineEdit_guess->text();
@@ -111,24 +122,33 @@ void MainWindow::on_pushButton_guess_clicked(){
 
     this->ui->lineEdit_guess->setText("");
 
-   bool guessChecked = checkGuess(guessC);
+   int guessChecked = checkGuess(guessC);
+   if(guessChecked == -1){
+       doubleGuess = true;
+   }
 
    if(this->correctGuesses == this->m_choosenWord.length()){
        this->endGame(true);
    }
-    if(!guessChecked){
-        QD << "twas fout";
+    if(guessChecked == 0 && !doubleGuess){
+        this->ph->hangmanState++;
+        this->ph->repaint();
+        //QD << "twas fout";
+    }
+
+    if(this->ph->hangmanState == 10){
+        this->endGame(false);
     }
 }
 
-bool MainWindow::checkGuess(QChar guessC){
+int MainWindow::checkGuess(QChar guessC){
     bool correct = false;
 
     for(QChar c : this->guessesList){
         QD << "lol";
         if(c == guessC){
             writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
-            return correct;
+            return -1;
         }
     }
     this->guessesList.append(guessC);
@@ -138,10 +158,10 @@ bool MainWindow::checkGuess(QChar guessC){
             this->labelsList[i]->setText(guessC);
             this->correctGuesses++;
             QD << this->correctGuesses;
-            correct = true;
+            return 1;
         }
     }
-    return correct;
+    return 0;
 }
 
 void MainWindow::endGame(bool status){

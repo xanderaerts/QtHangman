@@ -4,11 +4,12 @@
 #include <QWidget>
 #include <QPainter>
 
-class paintHangman : public QWidget
+class PaintHangman : public QWidget
 {
     Q_OBJECT
 public:
-    explicit paintHangman(QWidget *parent = nullptr);
+    explicit PaintHangman(QWidget *parent = nullptr);
+    int hangmanState = 0;
 
 protected:
     void paintEvent(QPaintEvent*);
