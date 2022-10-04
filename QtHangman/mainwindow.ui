@@ -94,7 +94,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_2">
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>18</x>

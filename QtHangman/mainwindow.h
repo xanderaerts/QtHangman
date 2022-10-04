@@ -52,6 +52,8 @@ private slots:
 
     void on_pushButton_exit_clicked();
 
+    void on_lineEdit_guess_returnPressed();
+
 private:
     Ui::MainWindow *ui;
 };

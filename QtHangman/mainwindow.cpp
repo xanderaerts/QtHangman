@@ -158,9 +158,15 @@ int MainWindow::checkGuess(QChar guessC){
             this->labelsList[i]->setText(guessC);
             this->correctGuesses++;
             QD << this->correctGuesses;
-            return 1;
+            correct = true;
+
         }
     }
+
+    if(correct){
+        return 1;
+    }
+
     return 0;
 }
 
@@ -194,11 +200,18 @@ void MainWindow::resetGame(){
     this->guessesList.clear();
     this->correctGuesses = 0;
     this->m_choosenWord = "";
+    this->ph->hangmanState = 0;
 
 }
 
 void MainWindow::on_pushButton_exit_clicked()
 {
     QApplication::exit();
+}
+
+
+void MainWindow::on_lineEdit_guess_returnPressed()
+{
+    MainWindow::on_pushButton_guess_clicked();
 }
 
