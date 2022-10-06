@@ -53,3 +53,5 @@ compile_commands.json
 
 
 notes.md
+build/
+QtHangman/release/

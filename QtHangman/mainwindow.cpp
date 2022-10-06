@@ -113,7 +113,7 @@ void MainWindow::drawLabels(){
 
 void MainWindow::on_pushButton_guess_clicked(){
 
-    bool doubleGuess;
+    bool doubleGuess = false;
 
     this->ui->label_errorGuessTwice->setHidden(true);
 
@@ -126,6 +126,7 @@ void MainWindow::on_pushButton_guess_clicked(){
    if(guessChecked == -1){
        doubleGuess = true;
    }
+   else{doubleGuess = false;}
 
    if(this->correctGuesses == this->m_choosenWord.length()){
        this->endGame(true);
