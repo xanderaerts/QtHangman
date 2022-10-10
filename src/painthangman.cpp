@@ -48,6 +48,5 @@ void PaintHangman::paintEvent(QPaintEvent *ev){
             [[fallthrough]];
         case 1:
             p.drawLine(10,400,500,400);
-            [[fallthrough]];
     }
 }

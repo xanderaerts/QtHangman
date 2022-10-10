@@ -134,7 +134,6 @@ void MainWindow::on_pushButton_guess_clicked(){
     if(guessChecked == 0 && !doubleGuess){
         this->ph->hangmanState++;
         this->ph->repaint();
-        //QD << "twas fout";
     }
 
     if(this->ph->hangmanState == 10){
@@ -145,8 +144,7 @@ void MainWindow::on_pushButton_guess_clicked(){
 int MainWindow::checkGuess(QChar guessC){
     bool correct = false;
 
-    for(QChar c : this->guessesList){
-        QD << "lol";
+    for(QChar c : qAsConst(this->guessesList)){
         if(c == guessC){
             writeError("Guessed this letter already",this->ui->label_errorGuessTwice);
             return -1;
@@ -160,7 +158,6 @@ int MainWindow::checkGuess(QChar guessC){
             this->correctGuesses++;
             QD << this->correctGuesses;
             correct = true;
-
         }
     }
 
