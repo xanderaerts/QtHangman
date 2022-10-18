@@ -37,6 +37,7 @@ RUN apt-get install -y \
     xz-utils
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
+
 RUN mkdir build
 WORKDIR /build
 
@@ -52,4 +53,4 @@ RUN cd mxe && make qtbase MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw3
 ENV PATH /build/mxe/usr/bin:$PATH
 #RUN export PATH=/build/mxe/usr /usr/bin:$PATH
 
-RUN /build/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake
+#RUN /build/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake
