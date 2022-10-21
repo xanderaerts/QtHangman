@@ -1,7 +1,6 @@
 notes.md
-src/release/
-!src/release/QtHangman.exe
 build-QtHangman-Desktop-Debug
+/build*
 
 
 
@@ -30,7 +29,6 @@ tags
 .DS_Store
 .directory
 *.debug
-Makefile*
 *.prl
 *.app
 moc_*.cpp
@@ -43,7 +41,4 @@ Thumbs.db
 /.qmake.stash
 
 
-# MinGW generated files
-*.Debug
-*.Release
 
